@@ -13,10 +13,7 @@ import { useRef } from 'react';
 import { FiUsers } from 'react-icons/fi';
 // import { CiCircleMore } from 'react-icons/ci';
 // import { Link } from 'react-router-dom';
-import {
-  EmployerReferrals,
-  JobDetailsType,
-} from '../../interfaces/models/user';
+import { EmployerReferrals } from '../../interfaces/models/user';
 import { apiRoutes } from '../../routes/api';
 // import { webRoutes } from '../../routes/web';
 import { handleErrorResponse } from '../../utils';

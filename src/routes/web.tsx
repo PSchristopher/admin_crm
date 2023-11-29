@@ -7,5 +7,6 @@ export const webRoutes = {
   employers: '/employers',
   jobDetails: '/jobDetails',
   referrals: '/referrals',
+  employeeProfie: '/employee-details/:id',
   about: '/about',
 };

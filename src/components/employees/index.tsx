@@ -13,7 +13,7 @@ import { useRef } from 'react';
 import { FiUsers } from 'react-icons/fi';
 import { CiCircleMore } from 'react-icons/ci';
 // import { Link } from 'react-router-dom';
-import { User } from '../../interfaces/models/user';
+import { Employee } from '../../interfaces/models/user';
 import { apiRoutes } from '../../routes/api';
 // import { webRoutes } from '../../routes/web';
 import {
@@ -28,6 +28,8 @@ import Icon, {
   ExclamationCircleOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import Link from 'antd/es/typography/Link';
 
 enum ActionKey {
   DELETE = 'delete',
@@ -49,6 +51,7 @@ enum ActionKey {
 const Employees = () => {
   const actionRef = useRef<ActionType>();
   const [modal, modalContextHolder] = Modal.useModal();
+  const navigate = useNavigate();
 
   const columns: ProColumns[] = [
     {
@@ -56,7 +59,7 @@ const Employees = () => {
       dataIndex: 'avatar',
       align: 'center',
       sorter: false,
-      render: (_, row: User) =>
+      render: (_, row: Employee) =>
         row.profile_pic ? (
           <Avatar
             shape="circle"
@@ -80,7 +83,15 @@ const Employees = () => {
       sorter: false,
       align: 'center',
       ellipsis: true,
-      render: (_, row: User) => `${row.full_name} `,
+      render: (_, row: Employee) => (
+        <Link
+          className="click"
+          onClick={() => navigate(`/employee-details/${row.user_id}`)}
+        >
+          {' '}
+          {row.full_name}
+        </Link>
+      ),
     },
     {
       title: 'Phone Number',
@@ -88,7 +99,7 @@ const Employees = () => {
       sorter: false,
       align: 'center',
       ellipsis: true,
-      render: (_, row: User) => `${row.phone_number} `,
+      render: (_, row: Employee) => `${row.phone_number} `,
     },
     {
       title: 'Category',
@@ -96,7 +107,7 @@ const Employees = () => {
       sorter: false,
       align: 'center',
       ellipsis: true,
-      render: (_, row: User) => `${row.category[0].category} `,
+      render: (_, row: Employee) => `${row.category[0].category} `,
     },
     {
       title: 'Sub Category',
@@ -104,7 +115,7 @@ const Employees = () => {
       sorter: false,
       align: 'center',
       ellipsis: true,
-      render: (_, row: User) => `${row.subcategory[0].sub_category} `,
+      render: (_, row: Employee) => `${row.subcategory[0].sub_category} `,
     },
     {
       title: 'Location',
@@ -112,14 +123,14 @@ const Employees = () => {
       sorter: false,
       align: 'center',
       ellipsis: true,
-      render: (_, row: User) => `${row.location} `,
+      render: (_, row: Employee) => `${row.location} `,
     },
     {
       title: 'Action',
       align: 'center',
       key: 'option',
       fixed: 'right',
-      render: (_, row: User) => [
+      render: (_, row: Employee) => [
         <TableDropdown
           key="actionGroup"
           onSelect={(key) => handleActionOnSelect(key, row)}
@@ -141,13 +152,13 @@ const Employees = () => {
     },
   ];
 
-  const handleActionOnSelect = (key: string, user: User) => {
+  const handleActionOnSelect = (key: string, user: Employee) => {
     if (key === ActionKey.DELETE) {
       showDeleteConfirmation(user);
     }
   };
 
-  const showDeleteConfirmation = (user: User) => {
+  const showDeleteConfirmation = (user: Employee) => {
     modal.confirm({
       title: 'Are you sure to delete this user?',
       icon: <ExclamationCircleOutlined />,
@@ -169,7 +180,7 @@ const Employees = () => {
       },
       onOk: () => {
         return http
-          .delete(`${apiRoutes.employees}/${user.id}`)
+          .delete(`${apiRoutes.employees}/${user.user_id}`)
           .then(() => {
             showNotification(
               'Success',
@@ -218,13 +229,12 @@ const Employees = () => {
               },
             })
             .then((response) => {
-              console.log(response, 'ksjsjsjjsjsj');
-              const users: [User] = response.data.res;
+              const users: [Employee] = response.data.res;
               return {
                 data: users,
                 success: true,
                 total: response.data.total,
-              } as RequestData<User>;
+              } as RequestData<Employee>;
             })
             .catch((error) => {
               handleErrorResponse(error);
@@ -232,7 +242,7 @@ const Employees = () => {
               return {
                 data: [],
                 success: false,
-              } as RequestData<User>;
+              } as RequestData<Employee>;
             });
         }}
         dateFormatter="string"

@@ -10,6 +10,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { EmployeeState } from './slices/employeeSlice';
 
 const persistConfig = {
   key: CONFIG.appName,
@@ -34,5 +35,6 @@ export const store = configureStore({
 
 export type RootState = {
   admin: AdminState;
+  employee: EmployeeState;
 };
 export type AppDispatch = typeof store.dispatch;

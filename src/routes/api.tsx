@@ -7,5 +7,6 @@ export const apiRoutes = {
   employers: `${API_URL}/admin/employers`,
   jobDetails: `${API_URL}/admin/jobDetails`,
   allReferrals: `${API_URL}/admin/allReferrals`,
+  getEmployeeDetails: (id: string) => `${API_URL}/admin/employeeDetail/${id}`,
   reviews: `${API_URL}/unknown`,
 };

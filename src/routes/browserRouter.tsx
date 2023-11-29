@@ -12,6 +12,7 @@ import RequireAuth from './requireAuth';
 import Login from '../components/auth/Login';
 import About from '../components/demo-pages/about';
 import { Referrals } from '../components/referrals';
+import EmployeeProfile from '../components/employees/EmployeeProfile';
 
 const errorElement = <ErrorPage />;
 const fallbackElement = <ProgressBar />;
@@ -79,6 +80,10 @@ export const browserRouter = createBrowserRouter([
       {
         path: webRoutes.referrals,
         element: <Referrals />,
+      },
+      {
+        path: webRoutes.employeeProfie,
+        element: <EmployeeProfile />,
       },
       {
         path: webRoutes.about,
